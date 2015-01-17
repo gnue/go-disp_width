@@ -1,8 +1,6 @@
 package disp_width
 
 import (
-	"unicode/utf8"
-
 	"github.com/moznion/go-unicode-east-asian-width"
 )
 
@@ -24,12 +22,11 @@ func Truncate(str string, width int, omission string) (s string, rest int) {
 	omissionLen := Measure(omission)
 	omissionRest := width
 	tp := 0
-	i := 0
 
 	rest = width
 	s = str
 
-	for _, r := range str {
+	for i, r := range str {
 		n := 1
 		if eastasianwidth.IsFullwidth(r) {
 			n = 2
@@ -48,7 +45,6 @@ func Truncate(str string, width int, omission string) (s string, rest int) {
 		}
 
 		rest -= n
-		i += utf8.RuneLen(r)
 	}
 
 	return
